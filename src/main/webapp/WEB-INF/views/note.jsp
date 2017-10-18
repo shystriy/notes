@@ -48,7 +48,10 @@
                 <td>${note.status}</td>
                 <td>${note.createdDate}</td>
                 <td><a href="delete/${note.id}"><spring:message code="label.delete" /></a></td>
-                <td><a href="complete/${note.id}"><spring:message code="label.complete" /></a></td>
+                <td><c:if test="${note.status != 'Выполнена'}">
+                    <a href="complete/${note.id}">
+                    <spring:message code="label.complete" /></a></td>
+                </c:if>
             </tr>
         </c:forEach>
     </table>
