@@ -12,35 +12,23 @@
 <body>
 
 <a href="<c:url value="/logout" />">
-    <spring:message code="label.logout" />
+    Выйти из приложения
 </a>
 
-<h2><spring:message code="label.title" /></h2>
+<h2>Менеджер записей</h2>
 
 <form:form method="post" action="add" commandName="note">
 
     <table>
         <tr>
             <td><form:label path="text">
-                <spring:message code="label.text" />
+                Текст
             </form:label></td>
             <td><form:input path="text" /></td>
         </tr>
         <tr>
-            <td><form:label path="status">
-                <spring:message code="label.status" />
-            </form:label></td>
-            <td><form:input path="status" /></td>
-        </tr>
-        <tr>
-            <td><form:label path="createdDate">
-                <spring:message code="label.createdDate" />
-            </form:label></td>
-            <td><form:input path="createdDate" /></td>
-        </tr>
-        <tr>
             <td colspan="2"><input type="submit"
-                                   value="<spring:message code="label.addnote"/>" /></td>
+                                   value="Добавить запись" /></td>
         </tr>
     </table>
 </form:form>
@@ -60,6 +48,7 @@
                 <td>${note.status}</td>
                 <td>${note.createdDate}</td>
                 <td><a href="delete/${note.id}"><spring:message code="label.delete" /></a></td>
+                <td><a href="complete/${note.id}"><spring:message code="label.complete" /></a></td>
             </tr>
         </c:forEach>
     </table>

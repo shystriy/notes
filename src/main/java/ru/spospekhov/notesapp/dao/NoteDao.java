@@ -13,4 +13,6 @@ public interface NoteDao {
     public List<Note> listNote();
 
     public void removeNote(Integer id);
+
+    public void completeNote(Integer id);
 }

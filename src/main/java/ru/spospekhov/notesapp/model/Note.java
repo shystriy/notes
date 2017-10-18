@@ -55,4 +55,8 @@ public class Note {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    public Note() {
+        this.status = "Не выполнена";
+    }
 }

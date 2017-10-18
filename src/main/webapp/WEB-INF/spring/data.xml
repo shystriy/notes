@@ -17,7 +17,7 @@
 
     <!-- Менеджер транзакций -->
     <bean id="transactionManager"
-          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
@@ -42,21 +42,19 @@
 
     <!-- Настройки фабрики сессий Хибернейта -->
     <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="configLocation">
-            <value>classpath:hibernate.cfg.xml</value>
-        </property>
-        <property name="configurationClass">
-            <value>org.hibernate.cfg.AnnotationConfiguration</value>
-        </property>
+        <!--<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        <property name="annotatedClasses" value="ru.spospekhov.notesapp.model.Note"/>-->
         <property name="hibernateProperties">
             <props>
+                <prop key="hibernate.id.new_generator_mappings">false</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>
                 <prop key="hibernate.connection.charSet">UTF-8</prop>
             </props>
         </property>
+        <property name="packagesToScan" value="ru.spospekhov.notesapp.model"/>
     </bean>
 
 </beans>

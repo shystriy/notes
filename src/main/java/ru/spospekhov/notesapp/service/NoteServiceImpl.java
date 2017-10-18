@@ -31,4 +31,9 @@ public class NoteServiceImpl implements NoteService {
     public void removeNote(Integer id) {
         noteDao.removeNote(id);
     }
+
+    @Transactional
+    public void completeNote(Integer id) {
+        noteDao.completeNote(id);
+    }
 }

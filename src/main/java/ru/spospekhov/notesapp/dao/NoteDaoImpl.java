@@ -5,6 +5,7 @@ import ru.spospekhov.notesapp.model.Note;
 import org.springframework.stereotype.Repository;
 import org.hibernate.SessionFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,10 +20,10 @@ public class NoteDaoImpl implements NoteDao{
         sessionFactory.getCurrentSession().save(note);
     }
 
+
     @SuppressWarnings("unchecked")
     public List<Note> listNote() {
-        return sessionFactory.getCurrentSession().createQuery("from Notes")
-                .list();
+        return sessionFactory.getCurrentSession().createQuery("from Note").list();
     }
 
     public void removeNote(Integer id) {
@@ -30,6 +31,15 @@ public class NoteDaoImpl implements NoteDao{
                 Note.class, id);
         if (null != note) {
             sessionFactory.getCurrentSession().delete(note);
+        }
+    }
+
+    public void completeNote(Integer id) {
+        Note note = (Note) sessionFactory.getCurrentSession().load(
+                Note.class, id);
+        if (null != note) {
+            note.setStatus("Выполнена");
+            sessionFactory.getCurrentSession().persist(note);
         }
     }
 }
