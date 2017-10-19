@@ -42,4 +42,24 @@ public class NoteDaoImpl implements NoteDao{
             sessionFactory.getCurrentSession().persist(note);
         }
     }
+
+    public Note getNote(Integer id) {
+        Note note = (Note) sessionFactory.getCurrentSession().load(
+                Note.class, id);
+        if (null != note) {
+            return note;
+        } else {
+            return new Note();
+        }
+    }
+
+    public void updateNote(Note note) {
+        Note editNote = (Note) sessionFactory.getCurrentSession().load(
+                Note.class, note.getId());
+        if (null != editNote) {
+            note.setText(note.getText());
+            note.setStatus(note.getStatus());
+            sessionFactory.getCurrentSession().persist(note);
+        }
+    }
 }

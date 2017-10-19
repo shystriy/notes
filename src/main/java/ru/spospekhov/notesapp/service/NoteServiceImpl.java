@@ -36,4 +36,15 @@ public class NoteServiceImpl implements NoteService {
     public void completeNote(Integer id) {
         noteDao.completeNote(id);
     }
+
+    @Transactional
+    public Note getNote(Integer id) {
+        return noteDao.getNote(id);
+    }
+
+    @Transactional
+
+    public void updateNote(Note note) {
+        noteDao.updateNote(note);
+    }
 }

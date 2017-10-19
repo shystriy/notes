@@ -15,4 +15,8 @@ public interface NoteDao {
     public void removeNote(Integer id);
 
     public void completeNote(Integer id);
+
+    public Note getNote(Integer id);
+
+    public void updateNote(Note note);
 }

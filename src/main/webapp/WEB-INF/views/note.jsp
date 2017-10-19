@@ -7,13 +7,65 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8">
-    <title><spring:message code="label.title" /></title>
+    <title>Менеджер зематок</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style type="text/css">
+        .myrow-container {
+            margin: 20px;
+        }
+        .btn {
+            padding: 2px 2px;
+            width: 5em;
+            height: 2em;
+            background-color: #4d3a1e;
+            color: #f1f1f1;
+            border-radius: 0;
+            transition: .2s;
+        }
+        .btn:hover, .btn:focus {
+            border: 1px solid #4d3a1e;
+            background-color: #fff;
+            color: #000;
+        }
+        a.aEdit:link, a.aDelete:link {
+            color: #a83016;
+        }
+        a.aEdit:visited, a.aDelete:visited {
+            color: #947872;
+        }
+        a.aEdit:hover, a.aDelete:hover {
+            color: #60a870;
+        }
+        a.aEdit:active, a.aDelete:active {
+            color: #ded728;
+        }
+        a.aCreateUser:link {
+            color: #d1cbbc;
+        }
+        a.aCreateUser:visited {
+            color: #c4bba5;
+        }
+        a.aCreateUser:hover {
+            color: #a0cc95;
+        }
+        .panel-footer a{
+            font-size: 1.2em;
+        }
+        .panel-footer a:link {
+            color: #d1cbbc;
+        }
+        .panel-footer a:visited {
+            color: #c4bba5;
+        }
+        .panel-footer a:hover {
+            color: #a0cc95;
+        }
+        .panel-footer a:active {
+            color: #52de2d;
+        }
+    </style>
 </head>
 <body>
-
-<a href="<c:url value="/logout" />">
-    Выйти из приложения
-</a>
 
 <h2>Менеджер записей</h2>
 
@@ -27,19 +79,27 @@
             <td><form:input path="text" /></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit"
-                                   value="Добавить запись" /></td>
+            <td colspan="2"><input type="submit" value="Добавить запись" /></td>
         </tr>
     </table>
 </form:form>
 
-<h3><spring:message code="label.notes" /></h3>
+<div class="panel-heading" style="background-color:#786455">
+    <h3 class="panel-title ">
+        <div align="left"><a class="aCreateNote" href="createNote">Создать новую заметку</a></div>
+    </h3>
+</div>
+
+<h3>Заметки</h3>
+<c:if test="${empty userList}">
+    Заметок пока что нет.
+</c:if>
 <c:if test="${!empty noteList}">
     <table class="data">
         <tr>
-            <th><spring:message code="label.text" /></th>
-            <th><spring:message code="label.status" /></th>
-            <th><spring:message code="label.createdDate" /></th>
+            <th>Текст></th>
+            <th>Статус</th>
+            <th>Дата создания</th>
             <th>&nbsp;</th>
         </tr>
         <c:forEach items="${noteList}" var="note">
@@ -47,15 +107,46 @@
                 <td>${note.text}</td>
                 <td>${note.status}</td>
                 <td>${note.createdDate}</td>
-                <td><a href="delete/${note.id}"><spring:message code="label.delete" /></a></td>
+                <td><a href="delete/${note.id}">Удалить</a></td>
                 <td><c:if test="${note.status != 'Выполнена'}">
-                    <a href="complete/${note.id}">
-                    <spring:message code="label.complete" /></a></td>
+                    <a href="complete/${note.id}">Выполнить</a></td>
                 </c:if>
             </tr>
         </c:forEach>
     </table>
 </c:if>
+
+<div align="center" class="panel-footer" style="background-color:#786455" id="pagination">
+    <c:url value="/" var="prev">
+        <c:param name="page" value="${page-1}"/>
+    </c:url>
+    <c:if test="${page > 1}">
+        <a href="<c:out value="${prev}" />" class="pn prev">Предыдущая</a>
+    </c:if>
+
+    <c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
+        <c:choose>
+            <c:when test="${page == i.index}">
+                <span>${i.index}</span>
+            </c:when>
+            <c:otherwise>
+                <c:url value="/" var="url">
+                    <c:param name="page" value="${i.index}"/>
+                </c:url>
+                <a href='<c:out value="${url}" />'>${i.index}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+    <c:url value="/" var="next">
+        <c:param name="page" value="${page + 1}"/>
+    </c:url>
+    <c:if test="${page + 1 <= maxPages}">
+        <a href='<c:out value="${next}" />' class="pn next">Следующас</a>
+    </c:if>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 </body>
 </html>
