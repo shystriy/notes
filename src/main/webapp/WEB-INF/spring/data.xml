@@ -57,6 +57,4 @@
         <property name="packagesToScan" value="ru.spospekhov.notesapp.model"/>
     </bean>
 
-    <bean id="NoteDao" class="ru.spospekhov.notesapp.dao.NoteDaoArrayImpl"/>
-
 </beans>

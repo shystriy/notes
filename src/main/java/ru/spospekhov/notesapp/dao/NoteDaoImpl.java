@@ -1,11 +1,11 @@
 package ru.spospekhov.notesapp.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.spospekhov.notesapp.model.Note;
-import org.springframework.stereotype.Repository;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
+import ru.spospekhov.notesapp.model.Note;
+import ru.spospekhov.notesapp.model.Status;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Repository
 public class NoteDaoImpl implements NoteDao{
-    @Autowired
+    //@Autowired
     private SessionFactory sessionFactory;
 
     public void addNote(Note note) {
@@ -38,7 +38,7 @@ public class NoteDaoImpl implements NoteDao{
         Note note = (Note) sessionFactory.getCurrentSession().load(
                 Note.class, id);
         if (null != note) {
-            note.setStatus("Выполнена");
+            note.setStatus(Status.COMPLETE);
             sessionFactory.getCurrentSession().persist(note);
         }
     }
@@ -61,5 +61,14 @@ public class NoteDaoImpl implements NoteDao{
             note.setStatus(note.getStatus());
             sessionFactory.getCurrentSession().persist(note);
         }
+    }
+
+    @Override
+    public List<Note> getListNotes(Status status) {
+        String hql = "from Note N where N.status = :status_";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("status_", status);
+
+        return query.list();
     }
 }

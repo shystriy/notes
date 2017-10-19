@@ -74,7 +74,7 @@
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-4">
-                            <input type="submit" id="saveNote" class="btn btn-primary" value="Save" onclick="return submitNoteForm();"/>
+                            <input type="submit" id="saveNote" class="btn btn-primary" value="Сохранить" onclick="return submitNoteForm();"/>
                         </div>
                         <div class="col-xs-4">
                         </div>

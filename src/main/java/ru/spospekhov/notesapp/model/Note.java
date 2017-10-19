@@ -19,7 +19,7 @@ public class Note {
     private String text;
 
     @Column(name = "STATUS")
-    private String status;
+    private Status status;
 
     @Column(name = "CREATEDDATE")
     private Date createdDate;
@@ -40,11 +40,11 @@ public class Note {
         this.text = text;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -57,6 +57,6 @@ public class Note {
     }
 
     public Note() {
-        this.status = "Не выполнена";
+        this.status = Status.NOT_COMPLETE;
     }
 }

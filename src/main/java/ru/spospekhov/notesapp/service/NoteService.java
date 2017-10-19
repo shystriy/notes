@@ -1,6 +1,7 @@
 package ru.spospekhov.notesapp.service;
 
 import ru.spospekhov.notesapp.model.Note;
+import ru.spospekhov.notesapp.model.Status;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface NoteService {
     public Note getNote(Integer id);
 
     public void updateNote(Note note);
+
+    public List<Note> getListNotes(Status status);
 }

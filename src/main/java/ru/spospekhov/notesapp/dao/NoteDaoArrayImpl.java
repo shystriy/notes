@@ -2,8 +2,10 @@ package ru.spospekhov.notesapp.dao;
 
 import org.springframework.stereotype.Repository;
 import ru.spospekhov.notesapp.model.Note;
+import ru.spospekhov.notesapp.model.Status;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,10 +31,11 @@ public class NoteDaoArrayImpl implements NoteDao{
 
     @PostConstruct
     private void fillList() {
+        listNotes = new ArrayList<Note>();
         for (int i = 0; i < 15; i++) {
             Note note = new Note();
             note.setText("Заметка " + i);
-            note.setStatus("Не выполнена");
+            note.setStatus(Status.NOT_COMPLETE);
             note.setCreatedDate(new Date());
             note.setId(i);
             listNotes.add(note);
@@ -62,7 +65,7 @@ public class NoteDaoArrayImpl implements NoteDao{
     public void completeNote(Integer id) {
         for (Note note : listNotes) {
             if (note.getId() == id) {
-                note.setStatus("Выполнена");
+                note.setStatus(Status.COMPLETE);
                 break;
             }
         }
@@ -85,5 +88,16 @@ public class NoteDaoArrayImpl implements NoteDao{
                 break;
             }
         }
+    }
+
+    @Override
+    public List<Note> getListNotes(Status status) {
+        List<Note> result = new ArrayList<>();
+        for (Note upNote : listNotes) {
+            if (upNote.getStatus() == status) {
+                result.add(upNote);
+            }
+        }
+        return result;
     }
 }

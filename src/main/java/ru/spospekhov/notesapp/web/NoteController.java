@@ -1,6 +1,7 @@
 package ru.spospekhov.notesapp.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.spospekhov.notesapp.model.Note;
+import ru.spospekhov.notesapp.model.Status;
 import ru.spospekhov.notesapp.service.NoteService;
 
-import java.util.Map;
+import java.util.List;
 
 
 /**
@@ -20,6 +22,11 @@ import java.util.Map;
  */
 @Controller
 public class NoteController {
+    private static final int MAX_ROWS_PER_PAGE = 10;
+
+    private List<Note> listNoteForForm = null;
+    private Status savedStatus = null;
+
     @Autowired
     private NoteService noteService;
 
@@ -34,19 +41,44 @@ public class NoteController {
         return new ModelAndView("noteForm", "noteObject", note);
     }
 
-    @RequestMapping("/index")
+    @RequestMapping(value="/")
+    public ModelAndView listOfNotes(@RequestParam(required = false) Integer page) {
+        ModelAndView modelAndView = new ModelAndView("note");
+        modelAndView.addObject("note", new Note());
+        modelAndView.addObject("savedStatus", savedStatus);
+
+        if (listNoteForForm == null) {
+            listNoteForForm = noteService.listNote();
+        }
+        //List<Note> notes = noteService.listNote();
+        PagedListHolder<Note> pagedListHolder = new PagedListHolder<>(listNoteForForm);
+        pagedListHolder.setPageSize(MAX_ROWS_PER_PAGE);
+        modelAndView.addObject("maxPages", pagedListHolder.getPageCount());
+
+        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+            page=1;
+        }
+        modelAndView.addObject("page", page);
+        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+            pagedListHolder.setPage(0);
+            modelAndView.addObject("noteList", pagedListHolder.getPageList());
+        }
+        else if(page <= pagedListHolder.getPageCount()) {
+            pagedListHolder.setPage(page-1);
+            modelAndView.addObject("noteList", pagedListHolder.getPageList());
+        }
+        return modelAndView;
+    }
+
+    /*@RequestMapping("/index")
     public String listNotes(Map<String, Object> map) {
 
         map.put("note", new Note());
         map.put("noteList", noteService.listNote());
 
         return "note";
-    }
+    }*/
 
-    @RequestMapping("/")
-    public String home() {
-        return "redirect:/index";
-    }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addNote(@ModelAttribute("note") Note note,
@@ -54,7 +86,9 @@ public class NoteController {
 
         noteService.addNote(note);
 
-        return "redirect:/index";
+        refreshModel();
+
+        return "redirect:/";
     }
 
     @RequestMapping("saveNote")
@@ -64,6 +98,9 @@ public class NoteController {
         } else {
             noteService.updateNote(note);
         }
+
+        refreshModel();
+
         return new ModelAndView("redirect:/");
     }
 
@@ -72,14 +109,60 @@ public class NoteController {
 
         noteService.removeNote(noteId);
 
-        return "redirect:/index";
+        refreshModel();
+
+        return "redirect:/";
     }
 
     @RequestMapping("/complete/{noteId}")
     public String completeNote(@PathVariable("noteId") Integer noteId) {
 
         noteService.completeNote(noteId);
+        refreshModel();
 
-        return "redirect:/index";
+        return "redirect:/";
+    }
+
+    @RequestMapping("filterNote")
+    public ModelAndView searchUser(@RequestParam("filterNote") String status, @RequestParam(required = false) Integer page){
+        ModelAndView modelAndView = new ModelAndView("note");
+        modelAndView.addObject("note", new Note());
+        savedStatus = Status.valueOf(status);
+        modelAndView.addObject("savedStatus", savedStatus);
+
+        if (Status.ALL == savedStatus) {
+            listNoteForForm = noteService.listNote();
+        } else {
+            listNoteForForm = noteService.getListNotes(savedStatus);
+        }
+
+
+        PagedListHolder<Note> pagedListHolder = new PagedListHolder<>(listNoteForForm);
+        pagedListHolder.setPageSize(MAX_ROWS_PER_PAGE);
+        modelAndView.addObject("maxPages", pagedListHolder.getPageCount());
+
+        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+            page=1;
+        }
+        modelAndView.addObject("page", page);
+        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
+            pagedListHolder.setPage(0);
+            modelAndView.addObject("noteList", pagedListHolder.getPageList());
+        }
+        else if(page <= pagedListHolder.getPageCount()) {
+            pagedListHolder.setPage(page-1);
+            modelAndView.addObject("noteList", pagedListHolder.getPageList());
+        }
+
+        //modelAndView.addObject("noteList", listNoteForForm);
+        return modelAndView;
+    }
+
+    private void refreshModel() {
+        if (savedStatus != null) {
+            listNoteForForm = noteService.getListNotes(savedStatus);
+        } else {
+            listNoteForForm = noteService.listNote();
+        }
     }
 }
