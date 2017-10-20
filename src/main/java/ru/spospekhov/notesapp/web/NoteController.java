@@ -11,20 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.spospekhov.notesapp.model.Note;
-import ru.spospekhov.notesapp.model.Sort;
 import ru.spospekhov.notesapp.model.Status;
 import ru.spospekhov.notesapp.service.NoteService;
-import org.jboss.logging.Logger;
 
-import java.io.BufferedInputStream;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.StringTokenizer;
 
 
 /**
@@ -48,7 +39,7 @@ public class NoteController {
     @RequestMapping("editNote")
     public ModelAndView editNote(@RequestParam Integer id, @ModelAttribute Note note) {
         note = noteService.getNote(id);
-        note.setId(id);
+
         return new ModelAndView("noteForm", "noteObject", note);
     }
 
@@ -86,15 +77,10 @@ public class NoteController {
         return "redirect:/";
     }
 
-    @RequestMapping("saveNote")
+    @RequestMapping(value = "saveNote")
     public ModelAndView saveNote(@ModelAttribute Note note) throws Exception{
 
-            Path path = Paths.get("C:\\note.txt");
-            Files.createFile(path);
-            Files.write(path, note.toString().getBytes());
-
-
-        if (note.getId() == 0) {
+        if (note.getId() == null || note.getId() == 0) {
             noteService.addNote(note);
         } else {
             noteService.updateNote(note);

@@ -14,9 +14,9 @@ import java.util.List;
 /**
  * Created by shy on 18.10.2017.
  */
-@Repository
+//@Repository
 public class NoteDaoImpl implements NoteDao{
-    @Autowired
+    //@Autowired
     private SessionFactory sessionFactory;
 
     public void addNote(Note note) {

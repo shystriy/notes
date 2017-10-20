@@ -52,7 +52,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            <form:form id="NoteEditForm" cssClass="form-horizontal" modelAttribute="note" method="post" action="add">
+            <form:form id="NoteEditForm" cssClass="form-horizontal" modelAttribute="note" method="post" action="saveNote">
 
 
 
@@ -96,8 +96,7 @@
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-4">
-                            <input type="submit" id="saveNote" class="btn btn-primary" value="Сохранить"
-                                   onclick="return submitNoteForm();"/>
+                            <input type="submit" id="saveNote" class="btn btn-primary" value="Сохранить"/>
                         </div>
                         <div class="col-xs-4">
                         </div>

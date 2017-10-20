@@ -25,7 +25,7 @@ import java.util.List;
  * <p/>
  * 19.10.2017 15:41: Original version (spospekhov)<br/>
  */
-//@Repository
+@Repository
 public class NoteDaoArrayImpl implements NoteDao{
     private List<Note> listNotes;
 
@@ -42,6 +42,8 @@ public class NoteDaoArrayImpl implements NoteDao{
         }
     }
     public void addNote(Note note) {
+        note.setId((int)(Math.random()*100000));
+        note.setCreatedDate(new Date());
         listNotes.add(note);
     }
 
