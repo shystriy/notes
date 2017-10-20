@@ -46,8 +46,10 @@
         <property name="dataSource" ref="dataSource" />
         <!--<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
         <property name="annotatedClasses" value="ru.spospekhov.notesapp.model.Note"/>-->
+
         <property name="hibernateProperties">
             <props>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
                 <prop key="hibernate.id.new_generator_mappings">false</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.dialect">${jdbc.dialect}</prop>

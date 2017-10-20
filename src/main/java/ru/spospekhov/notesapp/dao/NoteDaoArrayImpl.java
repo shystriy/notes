@@ -25,7 +25,7 @@ import java.util.List;
  * <p/>
  * 19.10.2017 15:41: Original version (spospekhov)<br/>
  */
-@Repository
+//@Repository
 public class NoteDaoArrayImpl implements NoteDao{
     private List<Note> listNotes;
 
@@ -35,7 +35,7 @@ public class NoteDaoArrayImpl implements NoteDao{
         for (int i = 0; i < 15; i++) {
             Note note = new Note();
             note.setText("Заметка " + i);
-            note.setStatus(Status.NOT_COMPLETE);
+            note.setStatus(Status.NOT_COMPLETE.name());
             note.setCreatedDate(new Date());
             note.setId(i);
             listNotes.add(note);
@@ -65,7 +65,7 @@ public class NoteDaoArrayImpl implements NoteDao{
     public void completeNote(Integer id) {
         for (Note note : listNotes) {
             if (note.getId() == id) {
-                note.setStatus(Status.COMPLETE);
+                note.setStatus(Status.COMPLETE.name());
                 break;
             }
         }
@@ -91,10 +91,10 @@ public class NoteDaoArrayImpl implements NoteDao{
     }
 
     @Override
-    public List<Note> getListNotes(Status status) {
+    public List<Note> getListNotes(String status) {
         List<Note> result = new ArrayList<>();
         for (Note upNote : listNotes) {
-            if (upNote.getStatus() == status) {
+            if (upNote.getStatus().equals(status)) {
                 result.add(upNote);
             }
         }

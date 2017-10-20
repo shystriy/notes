@@ -2,7 +2,10 @@ package ru.spospekhov.notesapp.dao;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import ru.spospekhov.notesapp.model.Note;
 import ru.spospekhov.notesapp.model.Status;
 
@@ -13,7 +16,7 @@ import java.util.List;
  */
 @Repository
 public class NoteDaoImpl implements NoteDao{
-    //@Autowired
+    @Autowired
     private SessionFactory sessionFactory;
 
     public void addNote(Note note) {
@@ -23,7 +26,7 @@ public class NoteDaoImpl implements NoteDao{
 
     @SuppressWarnings("unchecked")
     public List<Note> listNote() {
-        return sessionFactory.getCurrentSession().createQuery("from Note").list();
+        return sessionFactory.getCurrentSession().createQuery("from Note N order by N.createdDate desc").list();
     }
 
     public void removeNote(Integer id) {
@@ -38,7 +41,7 @@ public class NoteDaoImpl implements NoteDao{
         Note note = (Note) sessionFactory.getCurrentSession().load(
                 Note.class, id);
         if (null != note) {
-            note.setStatus(Status.COMPLETE);
+            note.setStatus(Status.COMPLETE.name());
             sessionFactory.getCurrentSession().persist(note);
         }
     }
@@ -64,8 +67,8 @@ public class NoteDaoImpl implements NoteDao{
     }
 
     @Override
-    public List<Note> getListNotes(Status status) {
-        String hql = "from Note N where N.status = :status_";
+    public List<Note> getListNotes(String status) {
+        String hql = "from Note N where N.status = :status_ order by N.createdDate desc";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("status_", status);
 

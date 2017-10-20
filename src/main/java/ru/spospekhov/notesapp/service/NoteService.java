@@ -21,5 +21,5 @@ public interface NoteService {
 
     public void updateNote(Note note);
 
-    public List<Note> getListNotes(Status status);
+    public List<Note> getListNotes(String status);
 }

@@ -9,6 +9,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="ru.spospekhov.notesapp.model.Status" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,12 +18,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <style type="text/css">
-        .myrow-container{
+        .myrow-container {
             margin: 20px;
         }
-        .panel-title{
+
+        .panel-title {
             color: #d1cbbc;
         }
+
         .btn {
             padding: 2px 2px;
             width: 5em;
@@ -32,6 +35,7 @@
             border-radius: 0;
             transition: .2s;
         }
+
         .btn:hover, .btn:focus {
             border: 1px solid #4d3a1e;
             background-color: #fff;
@@ -50,8 +54,10 @@
         <div class="panel-body">
             <form:form id="NoteEditForm" cssClass="form-horizontal" modelAttribute="note" method="post" action="add">
 
+
+
                 <div class="form-group">
-                    <div class="control-label col-xs-3"> <form:label path="text" >Текст</form:label> </div>
+                    <div class="control-label col-xs-3"><form:label path="text">Текст</form:label></div>
                     <div class="col-xs-6">
                         <form:hidden path="id" value="${noteObject.id}"/>
                         <form:input cssClass="form-control" path="text" value="${noteObject.text}"/>
@@ -60,13 +66,29 @@
 
                 <div class="form-group">
                     <form:label path="status" cssClass="control-label col-xs-3">Статус</form:label>
-                    <div class="col-xs-6">
-                        <form:input cssClass="form-control" path="status" value="${noteObject.status}"/>
-                    </div>
+                    <select class="col-md-2" id="status" name="status">
+                        <c:if test="${noteObject.status != null}">
+
+                            <c:if test="${noteObject.status == 'COMPLETE'}">
+                                <option path="status" value="COMPLETE">Выполнена</option>
+                                <option path="status" value="NOT_COMPLETE">Не выполнена</option>
+                            </c:if>
+                            <c:if test="${noteObject.status == 'NOT_COMPLETE'}">
+                                <option path="status" value="NOT_COMPLETE">Не выполнена</option>
+                                <option path="status" value="COMPLETE">Выполнена</option>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${noteObject.status == null}">
+                            <option value="COMPLETE">Выполнена</option>
+                            <option value="NOT_COMPLETE">Не выполнена</option>
+                        </c:if>
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <div class="control-label col-xs-3"><form:label path="createdDate">Дата создания</form:label></div>
+                    <div class="control-label col-xs-3"><form:label
+                            path="createdDate">${noteObject.createdDate}</form:label></div>
                 </div>
 
                 <div class="form-group">
@@ -74,7 +96,8 @@
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-4">
-                            <input type="submit" id="saveNote" class="btn btn-primary" value="Сохранить" onclick="return submitNoteForm();"/>
+                            <input type="submit" id="saveNote" class="btn btn-primary" value="Сохранить"
+                                   onclick="return submitNoteForm();"/>
                         </div>
                         <div class="col-xs-4">
                         </div>
@@ -93,13 +116,14 @@
     function submitNoteForm() {
         var text = $('#text').val().trim();
         var status = $('#status').val();
-        if(text.length ==0) {
+        if (text.length == 0) {
             alert('Введите текст заметки!');
             $('#text').focus();
             return false;
         }
         return true;
-    };
+    }
+    ;
 </script>
 </body>
 </html>

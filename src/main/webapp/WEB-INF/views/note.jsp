@@ -134,7 +134,7 @@
                 </div>
             </form>
             <c:if test="${empty noteList}">
-                Заметок пока что нет.
+                <h3>Заметок пока что нет.</h3>
             </c:if>
             <c:if test="${!empty noteList}">
                 <table class="data table-hover table-bordered">
@@ -142,7 +142,13 @@
                     <tr>
                         <th>Текст</th>
                         <th>Статус</th>
-                        <th>Дата создания</th>
+
+                        <th>
+                            <a class="asortNote" href="sortNote" >
+                                Дата создания
+                            </a>
+                        </th>
+
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -151,11 +157,12 @@
                     <c:forEach items="${noteList}" var="note">
                         <tr>
                             <th>${note.text}</th>
-                            <th>${note.status.getName()}</th>
+                            <th>${Status.valueOf(note.status).getName()}</th>
                             <th>${note.createdDate}</th>
+                            <th><a class="aEdit" href="editNote?id=<c:out value='${note.id}'/>">Изменить</a></th>
                             <th><a href="delete/${note.id}">Удалить</a></th>
                             <th>
-                                <c:if test="${note.status.getName() != 'Выполнена'}">
+                                <c:if test="${note.status != 'COMPLETE'}">
                                 <a href="complete/${note.id}">Выполнить</a></th>
                             </c:if>
                         </tr>

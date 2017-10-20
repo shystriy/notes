@@ -21,5 +21,5 @@ public interface NoteDao {
 
     void updateNote(Note note);
 
-    List<Note> getListNotes(Status status);
+    List<Note> getListNotes(String status);
 }

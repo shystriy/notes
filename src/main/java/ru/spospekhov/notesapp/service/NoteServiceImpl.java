@@ -3,6 +3,7 @@ package ru.spospekhov.notesapp.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.spospekhov.notesapp.dao.NoteDao;
 import ru.spospekhov.notesapp.dao.NoteDaoArrayImpl;
 import ru.spospekhov.notesapp.model.Note;
 import ru.spospekhov.notesapp.model.Status;
@@ -16,7 +17,7 @@ import java.util.List;
 public class NoteServiceImpl implements NoteService {
 
     @Autowired
-    private NoteDaoArrayImpl noteDao;
+    private NoteDao noteDao;
 
     @Transactional
     public void addNote(Note note) {
@@ -50,7 +51,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Transactional
-    public List<Note> getListNotes(Status status) {
+    public List<Note> getListNotes(String status) {
         return noteDao.getListNotes(status);
     }
 }
