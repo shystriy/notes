@@ -17,16 +17,16 @@
 
         .btn {
             padding: 2px 2px;
-            width: 5em;
+            width: 7em;
             height: 2em;
-            background-color: #4d3a1e;
+            background-color: rgba(33, 77, 25, 0.86);
             color: #f1f1f1;
             border-radius: 0;
             transition: .2s;
         }
 
         .btn:hover, .btn:focus {
-            border: 1px solid #4d3a1e;
+            border: 1px solid #214d19;
             background-color: #fff;
             color: #000;
         }
@@ -36,7 +36,7 @@
         }
 
         a.aEdit:visited, a.aDelete:visited {
-            color: #947872;
+            color: #4f9457;
         }
 
         a.aEdit:hover, a.aDelete:hover {
@@ -47,16 +47,16 @@
             color: #ded728;
         }
 
-        a.aCreateUser:link {
-            color: #d1cbbc;
+        a.aCreateNote:link, a.aSortNote:link {
+            color: #000000;
         }
 
-        a.aCreateUser:visited {
-            color: #c4bba5;
+        a.aCreateNote:visited, .aSortNote:visited {
+            color: #000000;
         }
 
-        a.aCreateUser:hover {
-            color: #a0cc95;
+        a.aCreateNote:hover, .aSortNote:hover {
+            color: #cc353c;
         }
 
         .panel-footer a {
@@ -87,7 +87,7 @@
     </div>
 
     <div class="panel">
-        <div class="panel-heading" style="background-color:#786455">
+        <div class="panel-heading" style="background-color:#607871">
             <form:form method="post" action="add" commandName="note">
                 <table>
                     <tr>
@@ -100,7 +100,7 @@
                 </table>
             </form:form>
 
-            <div class="panel-heading" style="background-color:#786455">
+            <div class="panel-heading" style="background-color:#607871">
                 <h3 class="panel-title ">
                     <div align="left"><a class="aCreateNote" href="createNote">Создать новую заметку</a></div>
                 </h3>
@@ -138,13 +138,13 @@
             </c:if>
             <c:if test="${!empty noteList}">
                 <table class="data table-hover table-bordered">
-                    <thead style="background-color: #b39b89;">
+                    <thead style="background-color: rgba(45,77,29,0.79);">
                     <tr>
                         <th>Текст</th>
                         <th>Статус</th>
 
                         <th>
-                            <a class="asortNote" href="sortNote" >
+                            <a class="aSortNote" href="sortNote" >
                                 Дата создания
                             </a>
                         </th>
@@ -160,10 +160,10 @@
                             <th>${Status.valueOf(note.status).getName()}</th>
                             <th>${note.createdDate}</th>
                             <th><a class="aEdit" href="editNote?id=<c:out value='${note.id}'/>">Изменить</a></th>
-                            <th><a href="delete/${note.id}">Удалить</a></th>
+                            <th><a class="aDelete" href="delete/${note.id}">Удалить</a></th>
                             <th>
                                 <c:if test="${note.status != 'COMPLETE'}">
-                                <a href="complete/${note.id}">Выполнить</a></th>
+                                <a class="aEdit" href="complete/${note.id}">Выполнить</a></th>
                             </c:if>
                         </tr>
                     </c:forEach>
@@ -172,7 +172,7 @@
             </c:if>
         </div>
     </div>
-    <div align="center" class="panel-footer" style="background-color:#786455" id="pagination">
+    <div align="center" class="panel-footer" style="background-color:#607871" id="pagination">
         <c:url value="/" var="prev">
             <c:param name="page" value="${page-1}"/>
         </c:url>

@@ -49,21 +49,12 @@ public class NoteController {
         modelAndView.addObject("note", new Note());
         modelAndView.addObject("savedStatus", savedStatus);
 
-        if (listNoteForForm == null) {
+        if (listNoteForForm == null || listNoteForForm.isEmpty()) {
             listNoteForForm = noteService.listNote();
         }
 
         return pagination(modelAndView, page);
     }
-
-    /*@RequestMapping("/index")
-    public String listNotes(Map<String, Object> map) {
-
-        map.put("note", new Note());
-        map.put("noteList", noteService.listNote());
-
-        return "note";
-    }*/
 
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

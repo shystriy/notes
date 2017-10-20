@@ -28,16 +28,16 @@
 
         .btn {
             padding: 2px 2px;
-            width: 5em;
+            width: 7em;
             height: 2em;
-            background-color: #4d3a1e;
+            background-color: rgba(33, 77, 25, 0.86);
             color: #f1f1f1;
             border-radius: 0;
             transition: .2s;
         }
 
         .btn:hover, .btn:focus {
-            border: 1px solid #4d3a1e;
+            border: 1px solid #214d19;
             background-color: #fff;
             color: #000;
         }
@@ -46,7 +46,7 @@
 <body class=".container-fluid" style="background-color:whitesmoke">
 <div class="container myrow-container">
     <div class="panel panel-success">
-        <div class="panel-heading" style="background-color:#786455">
+        <div class="panel-heading" style="background-color:#607871">
             <h3 class="panel-title" style="color: #d1cbbc">
                 Заметка:
             </h3>
@@ -65,8 +65,10 @@
                 </div>
 
                 <div class="form-group">
-                    <form:label path="status" cssClass="control-label col-xs-3">Статус</form:label>
-                    <select class="col-md-2" id="status" name="status">
+                    <div class="control-label col-xs-3">
+                        <form:label path="status">Статус</form:label>
+                    </div>
+                    <select class="col-xs-6" id="status" name="status">
                         <c:if test="${noteObject.status != null}">
 
                             <c:if test="${noteObject.status == 'COMPLETE'}">
@@ -87,7 +89,7 @@
 
                 <div class="form-group">
                     <div class="control-label col-xs-3"><form:label path="createdDate">Дата создания</form:label></div>
-                    <div class="control-label col-xs-3"><form:label
+                    <div class="col-xs-6"><form:label
                             path="createdDate">${noteObject.createdDate}</form:label></div>
                 </div>
 
@@ -111,18 +113,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
-    function submitNoteForm() {
-        var text = $('#text').val().trim();
-        var status = $('#status').val();
-        if (text.length == 0) {
-            alert('Введите текст заметки!');
-            $('#text').focus();
-            return false;
-        }
-        return true;
-    }
-    ;
-</script>
 </body>
 </html>

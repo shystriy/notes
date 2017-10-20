@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.spospekhov.notesapp.dao.NoteDao;
-import ru.spospekhov.notesapp.dao.NoteDaoArrayImpl;
 import ru.spospekhov.notesapp.model.Note;
-import ru.spospekhov.notesapp.model.Status;
 
 import java.util.List;
 
